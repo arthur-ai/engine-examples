@@ -1,0 +1,13 @@
+<div>
+   <div align="center">
+   <img src="https://cdn.prod.website-files.com/6230fe4706acf355d38b2d54/65b98b3564bb58c88c0a1b66_arthur-logo-light-nav.svg" alt="Arthur AI Logo" width="300" style="background-color: white;"/>
+   </div>
+</div>
+
+# Arthur Engine Examples + Demos
+
+This repository is a collection of examples + demos that showcase what you do and build using the [Arthur Engine](https://github.com/arthur-ai/arthur-engine).
+
+## Quick link to examples
+
+- Use Open WebUI + Arthur Engine to detect and prevent Prompt Injection attacks and PII leakage ([link](examples/open-webui-prompt-validation/README.md))
