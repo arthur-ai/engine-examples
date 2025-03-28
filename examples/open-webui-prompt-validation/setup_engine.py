@@ -3,8 +3,8 @@ import urllib.parse
 import datetime
 ENGINE_BASE_URL = "http://localhost:3030"
 ENGINE_ADMIN_KEY = "admin"
-ENGINE_API_KEY = "wIkkggwzSj4X5elVHc3CsQMFxzJaOInclAh6l9_TvzE"
-TASK_ID = "47403f8c-5c7b-40a7-b385-05e859f579ee"
+ENGINE_API_KEY = None
+TASK_ID = None
 
 
 def get_engine_admin_client():
