@@ -9,7 +9,6 @@ version: 0.1
 from pydantic import BaseModel, Field
 from typing import Optional
 import requests
-import logging
 import json
 
 
@@ -60,7 +59,7 @@ class Filter:
         engine_client = self.get_engine_client()
         response = engine_client.post(
             f"{engine_client.base_url}/api/v2/tasks/{self.valves.ENGINE_TASK_ID}/validate_response/{inference_id}",
-            json={"response": response, "context": context},
+            json={"response": response, "context": json.dumps(context)},
         )
         response.raise_for_status()
 
@@ -69,45 +68,68 @@ class Filter:
     def inlet(
         self, body: dict, __user__: Optional[dict] = None, __event_emitter__=None
     ) -> dict:
-        # Skip validation if no task ID is configured
-        if not self.valves.ENGINE_TASK_ID:
-            return body
-
-        # Check if messages array exists and has elements
-        if not body.get("messages") or len(body["messages"]) == 0:
-            return body
-
-        # Get the most recent message
-        latest_message = body["messages"][-1]
-
-        logging.warning(f"Validating message body: {json.dumps(body, indent=2)}")
-
-        inference_id = self.send_prompt_validation(latest_message["content"])
-        body["metadata"].setdefault("inference_id", inference_id)
-
         return body
+
+    def extract_conversation_data(self, messages):
+        """
+        Extract prompt, response, and context from a list of messages.
+
+        Args:
+            messages: List of message objects with properties like id, role, content, and timestamp
+
+        Returns:
+            dict: Object containing prompt, response, and context
+        """
+        if not messages or len(messages) < 2:
+            return {"prompt": "", "response": "", "context": []}
+
+        # Sort messages by timestamp
+        sorted_messages = sorted(messages, key=lambda x: x.get("timestamp", 0))
+
+        # Find the most recent user message (prompt) and assistant message (response) in one pass
+        prompt = ""
+        response = ""
+        prompt_index = -1
+        response_index = -1
+
+        for i, msg in enumerate(sorted_messages):
+            if msg.get("role") == "user":
+                prompt = msg["content"]
+                prompt_index = i
+            elif msg.get("role") == "assistant":
+                response = msg["content"]
+                response_index = i
+
+        # Extract context (all messages between prompt and response, non-inclusive)
+        context = []
+        if (
+            prompt_index != -1
+            and response_index != -1
+            and prompt_index < response_index
+        ):
+            context = [
+                msg.get("content", "")
+                for msg in sorted_messages[prompt_index + 1 : response_index]
+            ]
+        return {"prompt": prompt, "response": response, "context": context}
 
     def outlet(self, body: dict, __user__: Optional[dict] = None) -> dict:
         # Skip validation if no task ID is configured
         if not self.valves.ENGINE_TASK_ID:
             return body
 
-        # Check if messages array exists and has elements
-        if not body.get("messages") or len(body["messages"]) == 0:
-            return body
+        turn_messages = self.extract_conversation_data(body["messages"])
 
-        # Get the most recent message
-        latest_message = body["messages"][-1]
-        inference_id = body["metadata"].get("inference_id")
+        prompt = turn_messages["prompt"]
+        response = turn_messages["response"]
+        context = turn_messages["context"]
 
-        if not inference_id:
-            return body
+        inference_id = self.send_prompt_validation(prompt)
 
-        # TODO: Figure out what the right context is
         self.send_response_validation(
             inference_id,
-            latest_message["content"],
-            body,  # Pass in entire body object (inc. message history) for context
+            response,
+            context,
         )
 
         return body
