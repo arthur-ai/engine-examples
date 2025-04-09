@@ -10,6 +10,7 @@ from pydantic import BaseModel, Field
 from typing import Optional
 import requests
 import json
+import re
 
 
 class Filter:
@@ -87,33 +88,49 @@ class Filter:
         sorted_messages = sorted(messages, key=lambda x: x.get("timestamp", 0))
 
         # Find the most recent user message (prompt) and assistant message (response) in one pass
-        prompt = ""
-        response = ""
-        prompt_index = -1
-        response_index = -1
+        user_messages = [
+            msg["content"] for msg in sorted_messages if msg.get("role") == "user"
+        ]
+        assistant_messages = [
+            msg["content"] for msg in sorted_messages if msg.get("role") == "assistant"
+        ]
+        prompt = user_messages[-1] if user_messages else ""
+        response_with_context = assistant_messages[-1] if assistant_messages else ""
 
-        for i, msg in enumerate(sorted_messages):
-            if msg.get("role") == "user":
-                prompt = msg["content"]
-                prompt_index = i
-            elif msg.get("role") == "assistant":
-                response = msg["content"]
-                response_index = i
+        response, context = self.get_response_and_context(response_with_context)
 
-        # Extract context (all messages between prompt and response, non-inclusive)
-        context = []
-        if (
-            prompt_index != -1
-            and response_index != -1
-            and prompt_index < response_index
-        ):
-            context = [
-                msg.get("content", "")
-                for msg in sorted_messages[prompt_index + 1 : response_index]
-            ]
         return {"prompt": prompt, "response": response, "context": context}
 
+    def get_response_and_context(self, response_with_context):
+        """
+        Extract response and context from a string that may contain <details> tags.
+
+        Args:
+            response_with_context: String that may contain <details> tags
+
+        Returns:
+            tuple: (response, context) where:
+                - response is the text not wrapped in <details> tags
+                - context is a list of full <details> tags as strings
+        """
+
+        # Extract all <details> tags as context
+        details_pattern = r"<details[^>]*>.*?</details>"
+        details_matches = re.findall(details_pattern, response_with_context, re.DOTALL)
+
+        # Convert match objects to strings if needed
+        context = [str(match) for match in details_matches]
+
+        # Remove all <details> tags from the prompt
+        response = re.sub(details_pattern, "", response_with_context, flags=re.DOTALL)
+
+        # Clean up the prompt by removing extra whitespace
+        response = re.sub(r"\s+", " ", response).strip()
+
+        return response, context
+
     def outlet(self, body: dict, __user__: Optional[dict] = None) -> dict:
+
         # Skip validation if no task ID is configured
         if not self.valves.ENGINE_TASK_ID:
             return body
