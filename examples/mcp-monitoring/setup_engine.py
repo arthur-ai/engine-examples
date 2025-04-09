@@ -116,7 +116,7 @@ if __name__ == "__main__":
     create_api_key()
 
     pii_rule = {
-        "name": "Test PII Rule",
+        "name": "MCP PII Detection Rule",
         "type": "PIIDataRule",
         "apply_to_prompt": True,
         "apply_to_response": True,
@@ -138,33 +138,32 @@ if __name__ == "__main__":
         },
     }
     prompt_injection_rule = {
-        "name": "Test Prompt Injection Rule",
+        "name": "MCP Prompt Injection Detection Rule",
         "type": "PromptInjectionRule",
         "apply_to_prompt": True,
         "apply_to_response": False,
     }
 
     hallucination_rule = {
-        "name": "Test Hallucination Rule",
+        "name": "MCP Hallucination Detection Rule",
         "type": "ModelHallucinationRuleV2",
         "apply_to_prompt": False,
         "apply_to_response": True,
     }
 
     toxicity_rule = {
-        "name": "Test Toxicity Rule",
+        "name": "MCP Toxicity Detection Rule",
         "type": "ToxicityRule",
         "apply_to_prompt": True,
         "apply_to_response": True,
         "config": {"threshold": 0.5},
     }
-
     rules = [pii_rule, prompt_injection_rule, hallucination_rule, toxicity_rule]
 
     task_created = False
     if not TASK_ID:
         engine_client = get_engine_client()
-        task = create_task("Test Task")
+        task = create_task("MCP Monitoring Task")
         TASK_ID = task["id"]
         print(f"Created Task: {TASK_ID}")
 

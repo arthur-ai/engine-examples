@@ -9,6 +9,8 @@ version: 0.1
 from pydantic import BaseModel, Field
 from typing import Optional
 import requests
+import logging
+import json
 
 
 class Filter:
@@ -42,8 +44,8 @@ class Filter:
         session.base_url = self.valves.ENGINE_BASE_URL.rstrip("/")
         return session
 
-    def does_prompt_fail_to_validate(self, prompt):
-        # Call validate_prompt endpoint
+    def send_prompt_validation(self, prompt):
+        """Send prompt in for validation, but do nothing with result"""
         engine_client = self.get_engine_client()
         response = engine_client.post(
             f"{engine_client.base_url}/api/v2/tasks/{self.valves.ENGINE_TASK_ID}/validate_prompt",
@@ -51,22 +53,22 @@ class Filter:
         )
         response.raise_for_status()
 
-        validation_result = response.json()
-        # Check if any rules failed by looking at rule_results
-        if validation_result.get("rule_results"):
-            for rule_result in validation_result["rule_results"]:
-                if rule_result["result"] == "Fail":
-                    return True
+        return response.json().get("inference_id")
 
-        return False
+    def send_response_validation(self, inference_id, response, context=""):
+        """Send response in for validation, but do nothing with result"""
+        engine_client = self.get_engine_client()
+        response = engine_client.post(
+            f"{engine_client.base_url}/api/v2/tasks/{self.valves.ENGINE_TASK_ID}/validate_response/{inference_id}",
+            json={"response": response, "context": context},
+        )
+        response.raise_for_status()
+
+        return
 
     def inlet(
         self, body: dict, __user__: Optional[dict] = None, __event_emitter__=None
     ) -> dict:
-        # Modify the request body or validate it before processing by the chat completion API.
-        # This function is the pre-processor for the API where various checks on the input can be performed.
-        # It can also modify the request before sending it to the API.
-
         # Skip validation if no task ID is configured
         if not self.valves.ENGINE_TASK_ID:
             return body
@@ -78,34 +80,34 @@ class Filter:
         # Get the most recent message
         latest_message = body["messages"][-1]
 
-        # Only proceed if it's a user message with content
-        if latest_message["role"] != "user" or not latest_message.get("content"):
-            return body
+        logging.warning(f"Validating message body: {json.dumps(body, indent=2)}")
 
-        # Check if the latest message contains a prompt injection
-        if self.does_prompt_fail_to_validate(latest_message["content"]):
-            # Replace the latest message with a placeholder
-            body["messages"][-1] = {
-                "role": "user",
-                "content": "[Message removed due to security concerns]",
-            }
-
-            # Add a security notification message
-            body["messages"].append(
-                {
-                    "role": "user",
-                    "content": "Please provide a quick comment explaining that the user's most recent message was blocked because it was detected as violating organization security policies (eg: prompt injection, PII, governance policies, etc.).",
-                }
-            )
+        inference_id = self.send_prompt_validation(latest_message["content"])
+        body["metadata"].setdefault("inference_id", inference_id)
 
         return body
 
     def outlet(self, body: dict, __user__: Optional[dict] = None) -> dict:
-        # Modify or analyze the response body after processing by the API.
-        # This function is the post-processor for the API, which can be used to modify the response
-        # or perform additional checks and analytics.
-        print(f"outlet:{__name__}")
-        print(f"outlet:body:{body}")
-        print(f"outlet:user:{__user__}")
+        # Skip validation if no task ID is configured
+        if not self.valves.ENGINE_TASK_ID:
+            return body
+
+        # Check if messages array exists and has elements
+        if not body.get("messages") or len(body["messages"]) == 0:
+            return body
+
+        # Get the most recent message
+        latest_message = body["messages"][-1]
+        inference_id = body["metadata"].get("inference_id")
+
+        if not inference_id:
+            return body
+
+        # TODO: Figure out what the right context is
+        self.send_response_validation(
+            inference_id,
+            latest_message["content"],
+            body,  # Pass in entire body object (inc. message history) for context
+        )
 
         return body
