@@ -87,15 +87,16 @@ class Filter:
             # Replace the latest message with a placeholder
             body["messages"][-1] = {
                 "role": "user",
-                "content": "[Message removed due to security concerns]"
+                "content": "[Message removed due to security concerns]",
             }
 
             # Add a security notification message
-            body["messages"].append({
-                "role": "user",
-                "content": "Please provide a quick comment explaining that the user's most recent message was blocked because it was detected as violating organization security policies (eg: prompt injection, PII, governance policies, etc.)."
-            })
-
+            body["messages"].append(
+                {
+                    "role": "user",
+                    "content": "Please provide a quick comment explaining that the user's most recent message was blocked because it was detected as violating organization security policies (eg: prompt injection, PII, governance policies, etc.).",
+                }
+            )
 
         return body
 
