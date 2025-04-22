@@ -11,6 +11,8 @@ from typing import Optional
 import requests
 import json
 import re
+import logging
+import html
 
 
 class Filter:
@@ -71,6 +73,54 @@ class Filter:
     ) -> dict:
         return body
 
+    def decode_html(self, text):
+        """
+        Decode all HTML entities in the text using Python's html module.
+
+        Args:
+            text: String that may contain HTML entities
+
+        Returns:
+            str: String with all HTML entities decoded
+        """
+        return html.unescape(text)
+
+    def decode_response(self, text):
+        """
+        Decode HTML entities and escape sequences in the response.
+
+        Args:
+            text: String that may contain HTML entities and escape sequences
+
+        Returns:
+            str: Decoded string
+        """
+        # First decode all HTML entities
+        decoded = self.decode_html(text)
+
+        # Then handle escape sequences
+        # Handle double-escaped sequences first
+        decoded = decoded.replace("\\\\n", "\n")
+        decoded = decoded.replace("\\\\r", "\n")
+        decoded = decoded.replace("\\\\t", "\t")
+        decoded = decoded.replace('\\\\"', '"')
+        decoded = decoded.replace("\\\\", "\\")
+
+        # Then handle single-escaped sequences
+        decoded = decoded.replace("\\n", "\n")
+        decoded = decoded.replace("\\r", "\n")
+        decoded = decoded.replace("\\t", "\t")
+        decoded = decoded.replace('\\"', '"')
+
+        # Handle literal \r\n sequences that might still be present
+        decoded = decoded.replace("\\r\\n", "\n")
+
+        # Normalize all newlines to \n
+        decoded = decoded.replace("\r\n", "\n")
+        decoded = decoded.replace("\r", "\n")
+
+        return decoded
+
     def extract_conversation_data(self, messages):
         """
         Extract prompt, response, and context from a list of messages.
@@ -97,7 +147,12 @@ class Filter:
         prompt = user_messages[-1] if user_messages else ""
         response_with_context = assistant_messages[-1] if assistant_messages else ""
 
-        response, context = self.get_response_and_context(response_with_context)
+        # Decode the response
+        decoded_response = self.decode_response(response_with_context)
+        logging.warn(f"decoded_response: {decoded_response}")
+
+        # Extract response and context from the decoded response
+        response, context = self.get_response_and_context(decoded_response)
 
         return {"prompt": prompt, "response": response, "context": context}
 
@@ -140,6 +195,10 @@ class Filter:
         prompt = turn_messages["prompt"]
         response = turn_messages["response"]
         context = turn_messages["context"]
+
+        logging.warn(f"prompt: {prompt}")
+        logging.warn(f"response: {response}")
+        logging.warn(f"context: {context}")
 
         inference_id = self.send_prompt_validation(prompt)
 
