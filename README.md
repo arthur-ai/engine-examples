@@ -19,6 +19,7 @@ This repository is a collection of examples + demos that showcase what you do an
 - Use Open WebUI + Arthur Engine to detect and prevent Prompt Injection attacks and PII leakage ([link](examples/open-webui-prompt-validation/README.md))
 - Use the Arthur Engine to protect against security threats with multi-agent systems (demo using  [AutoGen multi-agent framework](https://github.com/microsoft/autogen)) ([link](https://github.com/arthur-ai/arthur-autogen-agentic-demo))
 - Use the Arthur Engine to monitor chats with MCP Servers ([link](examples/mcp-monitoring/README.md))
+- Use the Arthur Engine + Arthur Platform to continuously evaluate agentic applications during development and into production ([link](https://youtu.be/Zwj1tOgUcdU))
 
 ## Contributing Example
 
