@@ -42,8 +42,7 @@ This example shows how to set up Open WebUI with an MCP Server that can interact
 By setting up the MCP server (https://github.com/rishipradeep-think41/gsuite-mcp) and configuring it to be available to
 Open WebUI, LLMs can now work directly with the GSuite APIs and pull in content to generate messages.
 
-More details can be found on our blog post here:
-TODO: insert link
+More details can be found on our blog post here: https://www.arthur.ai/blog/get-to-inbox-zero-in-5-minutes-with-llms-and-mcp
 
 
 
