@@ -31,7 +31,6 @@ services:
       - POSTGRES_USE_SSL=false
     env_file:
       - local.env
-    entrypoint: ["bash", "-c", "./shield/docker-entrypoint.sh"]
   open-webui:
     container_name: open-webui
     image: ghcr.io/open-webui/open-webui:main
@@ -40,13 +39,11 @@ services:
     env_file:
       - local.env
     volumes:
-      - open-webui:/app/backend/data
+      - /app/backend/data
     restart: always
     networks:
       - arthur_network
 
-volumes:
-  open-webui:
 
 networks:
   arthur_network:
