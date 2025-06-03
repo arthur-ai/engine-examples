@@ -17,7 +17,9 @@ TODO: Insert Link to Demo Video
 ### Creating Metrics
 
 1. Create a PII Metric
+
    a. The PII Metric defaults to flagging all the entities in that list. Disabling entities allows you to configure what the PII Metric will **not** flag on. 
+
    b. Add the following to your disabled entities:
       - CREDIT_CARD
       - CRYPTO
@@ -33,9 +35,11 @@ TODO: Insert Link to Demo Video
       - US_ITIN
       - US_PASSPORT
    (This means that only EMAIL_ADDRESS, PHONE_NUMBER, URL and US_SSN entities will be flagged)
+
    c. Apply this to only Prompt 
 
 2. Create a Prompt Injection Metric
+   
    a. Apply this to only Prompt      
 
 3. Create your first Model!
