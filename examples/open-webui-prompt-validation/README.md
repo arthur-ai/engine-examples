@@ -4,7 +4,71 @@
 
 TODO: Insert Link to Demo Video
 
+## New Quickstart
+
+### Setting up your Account and the Arthur Engine
+
+1. Navigate to platform.arthur.ai/signup
+2. Create a new account and select the Real-Time Guardrails usecase
+3. Copy the bash command and paste it into the terminal to run the Arthur Engine locally
+4. Wait for ~5-10 minutes for the engine to set up and connect to the Arthur platform
+5. Create your first usecase by setting up a new model, and start creating your first metrics (below)
+
+### Creating Metrics
+
+1. Create a PII Metric
+   a. The PII Metric defaults to flagging all the entities in that list. Disabling entities allows you to configure what the PII Metric will **not** flag on. 
+   b. Add the following to your disabled entities:
+      - CREDIT_CARD
+      - CRYPTO
+      - DATE_TIME
+      - IBAN_CODE
+      - IP_ADDRESS
+      - NRP
+      - LOCATION
+      - PERSON
+      - MEDICAL_LICENSE
+      - US_BANK_NUMBER
+      - US_DRIVER_LICENSE
+      - US_ITIN
+      - US_PASSPORT
+   (This means that only EMAIL_ADDRESS, PHONE_NUMBER, URL and US_SSN entities will be flagged)
+   c. Apply this to only Prompt 
+
+2. Create a Prompt Injection Metric
+   a. Apply this to only Prompt      
+
+3. Create your first Model!
+
+### Setting up OpenWebUI
+
+1. In the project folder run `docker compose up`
+2. Wait for OpenWebUI to load (~2-3 mins) and navigate to http://localhost:3000/
+3. Create an account in OpenWebUI (Don't worry, it's all local)
+4. Feel free to play around with it to get a sense of the UI
+
+### Creating Filters to Protect your Prompts and Responses 
+
+1. In OpenWebUI Navigate to the Admin Panel - Functions (via profile icon in bottom left)
+2. Create a new function
+3. Copy the contents of filter.py into the filter and give it a name + description
+4. Save the filter
+
+### The Final Steps
+
+1. Click the Valves button (Gear Icon) next to the filter. You should see three variables that you can update
+2. On platform.arthur.ai, in your model dashboard you should see a dropdown for Model Management. Expand it and click on API Key
+3. Select the API Key and in OpenWebUI, copy it into Engine API Key.
+4. Run Step 2 again, and this time copy the UUID in the curl command:  
+   ```curl "http://localhost:3030/api/v2/tasks/<COPY THIS>/validate_prompt"```
+5. In OpenWebUI, paste the UUID under Engine Task ID.
+6. Enable the filter (select the three dots and toggle the Global button)
+7. That's it! Take it for a spin. Here's a prompt to get you started:
+   ```Can you write an email to hackathon@arthur.ai telling them how cool the product.```
+
+
 ## Quickstart
+
 
 1. Edit local.env file to add OpenAI configs
    1.
