@@ -1,37 +1,4 @@
 services:
-  db:
-    image: ankane/pgvector
-    container_name: arthur-engine-db
-    networks:
-      - arthur_network
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_DATABASES=arthur_shield
-    env_file:
-      - local.env
-  arthur-engine:
-    container_name: arthur-engine
-    image: arthurplatform/genai-engine-cpu:${SHIELD_VERSION}
-    platform: linux/amd64
-    networks:
-      - arthur_network
-    depends_on:
-      - db
-    ports:
-      - "3030:3030"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_URL=db
-      - POSTGRES_PORT=5432
-      - POSTGRES_DB=arthur_shield
-      - POSTGRES_USE_SSL=false
-    env_file:
-      - local.env
-    entrypoint: ["bash", "-c", "./shield/docker-entrypoint.sh"]
   open-webui:
     container_name: open-webui
     image: ghcr.io/open-webui/open-webui:main
@@ -42,9 +9,4 @@ services:
     volumes:
       - /app/backend/data
     restart: always
-    networks:
-      - arthur_network
-
-networks:
-  arthur_network:
-    driver: bridge
+  
