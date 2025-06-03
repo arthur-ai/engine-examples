@@ -4,7 +4,7 @@
 
 TODO: Insert Link to Demo Video
 
-## New Quickstart
+## Quickstart
 
 ### Setting up your Account and the Arthur Engine
 
