@@ -53,7 +53,7 @@ TODO: Insert Link to Demo Video
 
 ### Creating Filters to Protect your Prompts and Responses 
 
-1. In OpenWebUI Navigate to the Admin Panel - Functions (via profile icon in bottom left)
+1. In OpenWebUI, navigate to the Admin Panel - Functions (via profile icon in bottom left)
 2. Create a new function
 3. Copy the contents of filter.py into the filter and give it a name + description
 4. Save the filter

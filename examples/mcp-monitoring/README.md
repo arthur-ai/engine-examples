@@ -38,9 +38,7 @@ TODO: Insert Link to Demo Video
    c. Apply this to Prompt and Response
  
 2. Create a Prompt Injection Metric
-   
 3. Create a Hallucination Metric
-    
 4. Create a Toxicity Metric
    
    a. Set the Toxicity threshold to 0.5
@@ -58,7 +56,7 @@ TODO: Insert Link to Demo Video
 
 ### Creating Filters to Protect your Prompts and Responses 
 
-1. In OpenWebUI Navigate to the Admin Panel - Functions (via profile icon in bottom left)
+1. In OpenWebUI, navigate to the Admin Panel - Functions (via profile icon in bottom left)
 2. Create a new function
 3. Copy the contents of filter.py into the filter and give it a name + description
 4. Save the filter
@@ -82,7 +80,7 @@ TODO: Insert Link to Demo Video
 
 1. Clone the gsuite-mcp server from Github (https://github.com/rishipradeep-think41/gsuite-mcp)
 2. Navigate to the directory you cloned the repo into and run `npm install`
-3. **The following steps are copied directly from the repo above, and they may be outdated**
+3. **The following steps are copied directly from the linked repo, they may be outdated**
    1. **Node.js**: Install Node.js version 14 or higher
    2. **Google Cloud Console Setup**:
       - Go to [Google Cloud Console](https://console.cloud.google.com/)
@@ -111,9 +109,9 @@ TODO: Insert Link to Demo Video
    }
 ```
 
-5. Run `node get-refresh-token.js`. This will generate a token.json file locally.
+1. Run `node get-refresh-token.js`. This will generate a token.json file locally.
 
-6. Export the following environment variables. You can find your refresh token under `access_token` in `token.json`
+2. Export the following environment variables. You can find your refresh token under `access_token` in `token.json`
 
 ```
 export GOOGLE_CLIENT_ID=<YOUR_CLIENT_ID>
@@ -121,7 +119,7 @@ export GOOGLE_CLIENT_SECRET=<YOUR_CLIENT_SECRET>
 export GOOGLE_REFRESH_TOKEN=<YOUR_REFRESH_TOKEN> 
 ```
 
-7. Run `uvx mcpo --port 8000 -- node ./build/index.js` to spin up the MCP server. You may need to `pip install uv`
+7. Run `uvx mcpo --port 8000 -- node ./build/index.js` to spin up the MCP server. You may need to `pip install uv`.
 8. The MCP server should start on port 8000. 
 
 ### Connecting the MCP Server
