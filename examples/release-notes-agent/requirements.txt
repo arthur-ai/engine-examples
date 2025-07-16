@@ -1,0 +1,5 @@
+crewai
+octokit
+requests
+pydantic
+python-gitlab 
