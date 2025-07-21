@@ -1,5 +1,9 @@
+from . import tracing
+from dotenv import load_dotenv
+
 from .crew import ReleaseNotesCrew
 
+load_dotenv()
 
 def run():
     inputs = {

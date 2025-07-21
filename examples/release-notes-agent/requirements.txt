@@ -2,4 +2,6 @@ crewai
 octokit
 requests
 pydantic
-python-gitlab 
+python-gitlab
+openinference-instrumentation-crewai
+python-dotenv 
