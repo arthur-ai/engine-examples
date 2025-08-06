@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 from opentelemetry.sdk.trace import TracerProvider, SpanProcessor, ReadableSpan
 from opentelemetry.trace import Span
 
-from openinference.instrumentation.crewai import CrewAIInstrumentor
+from openinference.instrumentation.langchain import LangChainInstrumentor
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk.trace.export import SimpleSpanProcessor
 
@@ -41,14 +41,20 @@ class MetadataInjectorSpanProcessor(SpanProcessor):
 # Set up the OpenTelemetry SDK tracer provider with an HTTP exporter.
 # Change the endpoint if the collector is running at a different location.
 otlp_span_exporter = OTLPSpanExporter(
-    endpoint = "http://localhost:8000/v1/traces",
+    endpoint = "http://localhost:3030/v1/traces",
     headers = {
         "Authorization": f"Bearer {os.getenv('ARTHUR_ENGINE_API_KEY')}"
     }
 )
+
+# otlp_file_exporter = OTLPSpanExporter(
+#     endpoint = "http://localhost:4318/v1/traces",
+# )
+
 trace_provider = TracerProvider()
 trace_provider.add_span_processor(SimpleSpanProcessor(otlp_span_exporter))
+# trace_provider.add_span_processor(SimpleSpanProcessor(otlp_file_exporter))
 trace_provider.add_span_processor(MetadataInjectorSpanProcessor(TASK_ID))
 
-# Call the instrumentor to instrument OpenAI
-CrewAIInstrumentor().instrument(tracer_provider=trace_provider)
+# Call the instrumentor to instrument LangChain
+LangChainInstrumentor().instrument(tracer_provider=trace_provider)

@@ -1,0 +1,13 @@
+langchain
+langchain-openai
+langchain-community
+langchain-core
+PyGithub
+python-gitlab
+pydantic
+requests
+python-dotenv
+openinference-instrumentation-langchain
+opentelemetry-api
+opentelemetry-sdk
+opentelemetry-exporter-otlp
