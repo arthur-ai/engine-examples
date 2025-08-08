@@ -6,7 +6,7 @@ load_dotenv()
 
 def run():
     inputs = {
-        "start_date": "2025-07-01",
+        "start_date": "2025-08-01",
         "repositories": [
             "https://gitlab.com/ArthurAI/unify-frontend",
             "https://gitlab.com/ArthurAI/arthur-scope",
@@ -14,7 +14,7 @@ def run():
             "https://github.com/arthur-ai/arthur-common",
         ]
     }
-    
+
     agent = ReleaseNotesAgent()
     result = agent.run(inputs)
     print(result)

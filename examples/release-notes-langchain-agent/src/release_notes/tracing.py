@@ -12,6 +12,7 @@ import json
 # Load environment variables from .env file
 load_dotenv()
 TASK_ID = os.getenv("TASK_ID")
+ENGINE_BASE_URL = os.getenv("ENGINE_BASE_URL")
 
 class MetadataInjectorSpanProcessor(SpanProcessor):
     def __init__(self, task_id: str):
@@ -41,7 +42,7 @@ class MetadataInjectorSpanProcessor(SpanProcessor):
 # Set up the OpenTelemetry SDK tracer provider with an HTTP exporter.
 # Change the endpoint if the collector is running at a different location.
 otlp_span_exporter = OTLPSpanExporter(
-    endpoint = "http://localhost:3030/v1/traces",
+    endpoint = f"{ENGINE_BASE_URL}/v1/traces",
     headers = {
         "Authorization": f"Bearer {os.getenv('ARTHUR_ENGINE_API_KEY')}"
     }
