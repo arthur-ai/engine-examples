@@ -58,6 +58,8 @@ TODO: Insert Link to Demo Video
 3. Copy the contents of filter.py into the filter and give it a name + description
 4. Save the filter
 
+Alternatively, you can import the Guardrail filter from the [Open WebUI Marketplace](https://openwebui.com/f/arthurengine/arthur_guardrail_filter).
+
 ### The Final Steps
 
 1. Click the Valves button (Gear Icon) next to the filter. You should see three variables that you can update
