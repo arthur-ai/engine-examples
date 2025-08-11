@@ -25,6 +25,8 @@ class Filter:
 
         # Initialize 'valves' with specific configurations. Using 'Valves' instance helps encapsulate settings,
         # which ensures settings are managed cohesively and not confused with operational flags like 'file_handler'.
+        self.toggle = True
+        self.icon = """data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzEiIHZpZXdCb3g9IjAgMCAzMiAzMSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgaWQ9Ikdyb3VwIj4KPHBhdGggaWQ9IlZlY3RvciIgZD0iTTE4Ljk1MzcgMEgxMy4xMjIzTDAuMDk2MTkxNCAyMS4yMDUzQzAuMDk2MTkxNCAyMS4yMDUzIDUuMDE4ODQgMzAuMzMxMSAxNi4wMDAxIDMwLjMzMTFDMjYuOTgxNSAzMC4zMzExIDMxLjkwNDEgMjEuMjA1MyAzMS45MDQxIDIxLjIwNTNMMTguOTUzNyAwWk03LjkzNDU3IDIxLjA5MTdMMTYuMDAwMSA3LjgzODM4TDI0LjE0MTUgMjEuMDkxN0g3LjkzNDU3WiIgZmlsbD0iI0I1MzZGQiIvPgo8L2c+Cjwvc3ZnPgo="""
         self.valves = self.Valves()
         pass
 
