@@ -1,9 +1,14 @@
 from . import tracing
 from dotenv import load_dotenv
 from .agent import ReleaseNotesAgent
+from openinference.instrumentation import using_metadata
+import os
 
 load_dotenv()
 
+@using_metadata({
+    "arthur.task": os.getenv("TASK_ID")
+})
 def run():
     inputs = {
         "start_date": "2025-08-01",

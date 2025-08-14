@@ -18,7 +18,6 @@ class ReleaseNotesRequirements(BaseModel):
     bug_fixes: List[str] = Field(..., description="List of bug fixes to existing features to be included in the release notes")
     maintenance: List[str] = Field(..., description="List of maintenance tasks, including dependency updates, changes to CICD, etc. to be included in the release notes")
 
-
 class ReleaseNotesAgent:
     def __init__(self):
         self.llm = ChatOpenAI(
@@ -26,7 +25,7 @@ class ReleaseNotesAgent:
             temperature=0.1,
             openai_api_key=os.getenv("OPENAI_API_KEY")
         )
-        
+
         # Initialize tools
         self.github_tool = GitHubPRTool()
         self.gitlab_tool = GitLabPRTool()
