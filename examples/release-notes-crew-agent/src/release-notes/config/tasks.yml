@@ -1,0 +1,36 @@
+draft_release_notes_task:
+  description: >
+    Pull the PRs from the following repositories starting after {start_date}:
+    {repositories}
+
+    Analyze the PRs and draft release notes that contain relevant information for:
+    - New Features
+    - Enhancements to existing features
+    - Bug Fixes
+    - Maintenance tasks (dependency updates, changes to CICD, etc.)
+
+    The release notes should be written in a way that is easy to understand and use for
+    a customer and developer contributor audience.
+
+    Some PRs may be related (either in the same repo or across repos) and should be grouped
+    together into a single release note.
+
+  expected_output: >
+    A comprehensive release notes document that contains the following sections:
+    - New Features
+    - Enhancements to existing features
+    - Bug Fixes
+    - Maintenance tasks
+
+    Each section should contain a list of PRs that are related to that section (with links to the PRs).
+    
+review_and_edit_release_notes_task:
+  description: >
+    Review the draft release notes for clarity, engagement, grammatical accuracy and alignment 
+    for a customer and developer contributor audience. Edit and refine the content, ensuring 
+    each item is clear, concise, relevant, and grammatically correct.
+    Provide feedback for any necessary changes and edits.
+
+  expected_output: >
+    A polished, error-free release notes document that is clear, engaging and perfectly captures
+    all of the relvant work in a consistently categorized and structured way. Formatted in markdown with few emojis.

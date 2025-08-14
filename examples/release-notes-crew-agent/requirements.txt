@@ -1,0 +1,7 @@
+crewai
+octokit
+requests
+pydantic
+python-gitlab
+openinference-instrumentation-crewai
+python-dotenv 
