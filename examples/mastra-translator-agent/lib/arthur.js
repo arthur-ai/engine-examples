@@ -12,6 +12,11 @@ const providers = {
  * Resolves an Arthur model provider string and model name to an AI SDK model instance.
  * Supports "openai", "anthropic", and "gemini" — matching the providers configured
  * in Arthur Engine.
+ *
+ *   resolveModel(modelProvider, modelName)
+ *     Maps an Arthur prompt's `model_provider` and `model_name` fields to the
+ *     corresponding AI SDK model instance (e.g. resolveModel("openai", "gpt-4o")).
+ *     Throws if the provider is not recognized.
  */
 export function resolveModel(modelProvider, modelName) {
   const provider = providers[modelProvider];
