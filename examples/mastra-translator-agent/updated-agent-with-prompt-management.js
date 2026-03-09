@@ -1,6 +1,5 @@
 import { Agent } from "@mastra/core/agent";
-import { arthurClient } from "./lib/arthur.js";
-import { resolveModel } from "./lib/model-provider.js";
+import { arthurClient, resolveModel } from "./lib/arthur.js";
 
 const prompt = await arthurClient.getPromptByTag("translator-prompt", "production");
 console.log(`Loaded prompt "${prompt.name}" v${prompt.version} (model: ${prompt.model_name}, tags: ${prompt.tags.join(", ")})`);
