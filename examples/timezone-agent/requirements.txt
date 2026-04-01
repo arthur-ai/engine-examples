@@ -1,0 +1,8 @@
+# Core dependencies for OpenInference tracing tutorial
+openinference-instrumentation-langchain>=0.1.40
+langchain-openai>=0.3.7
+langchain>=0.3.20
+opentelemetry-api>=1.30.0
+opentelemetry-sdk>=1.30.0
+opentelemetry-exporter-otlp>=1.30.0
+python-dotenv>=1.1.0
