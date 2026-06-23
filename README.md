@@ -1,4 +1,5 @@
-<div align="center">
+<div> 
+   <align="center">
    <img src="https://cdn.prod.website-files.com/6230fe4706acf355d38b2d54/65b98b3564bb58c88c0a1b66_arthur-logo-light-nav.svg" alt="Arthur AI Logo" width="300" style="background-color: white;"/>
 
    <i>Make AI work for Everyone.</i>
@@ -10,19 +11,22 @@
 </div>
 
 
-# Arthur Engine Examples + Demos
+# Arthur Evals Engine Examples + Demos
 
-This repository is a collection of examples + demos that showcase what you do and build using the [Arthur Engine](https://github.com/arthur-ai/arthur-engine).
+This repository contains a curated collection of examples and demos that show how to build, evaluate, and secure AI applications using the Arthur Evals Engine. Each example highlights a practical workflow that you can use as a starting point for your own projects. [Arthur Engine](https://github.com/arthur-ai/arthur-engine).
 
 ## Quick link to examples
 
-- Use Open WebUI + Arthur Engine to detect and prevent Prompt Injection attacks and PII leakage ([link](examples/open-webui-prompt-validation/README.md))
-- Use the Arthur Engine to protect against security threats with multi-agent systems (demo using  [AutoGen multi-agent framework](https://github.com/microsoft/autogen)) ([link](https://github.com/arthur-ai/arthur-autogen-agentic-demo))
-- Use the Arthur Engine to monitor chats with MCP Servers ([link](examples/mcp-monitoring/README.md))
-- Use the Arthur Engine + Arthur Platform to continuously evaluate agentic applications during development and into production ([link](https://youtu.be/Zwj1tOgUcdU))
+- **Detect and prevent prompt injection attacks and PII leakage** using Open WebUI with the Arthur Evals Engine *([link](examples/open-webui-prompt-validation/README.md))*
+- **Protect multi-agent systems from security risks** using the Arthur Evals Engine with the AutoGen multi-agent framework *([link](https://github.com/arthur-ai/arthur-autogen-agentic-demo))* *([AutoGen multi-agent framework](https://github.com/microsoft/autogen))* 
+- **Monitor chats across MCP Servers** using real time evaluation and rule enforcement *([link](examples/mcp-monitoring/README.md))*
+- **Continuously evaluate agentic applications** from development through production using the Arthur Evals Engine with the Arthur Platform *([link](https://youtu.be/Zwj1tOgUcdU))* ([Create a free account](https://platform.arthur.ai/)] 
 
-## Contributing Example
+## Want to contribute? 
 
-We love to see cool examples + use-cases that the community contributes.
+We welcome examples and use cases from the community. If you would like to contribute:
 
-If you are interested in adding an example, please open a PR or start a discussion in our discord.
+- Open a pull request with your example, or  
+- Start a discussion in our Discord to share ideas or get feedback.
+
+Your contributions help expand what builders can learn, create, and ship with the Arthur Evals Engine.
